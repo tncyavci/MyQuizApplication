@@ -2,6 +2,10 @@ package com.tuncayavci.myquizapplication
 
 object Constants {
 
+    const val USER_NAME: String = "user_name"
+    const val CORRECT_ANSWER: Int = 0
+    const val TOTAL_QUESTIONS: Int = 0
+
     fun getQuestions(): ArrayList<Question>{
         val questionsList = ArrayList<Question>()
 

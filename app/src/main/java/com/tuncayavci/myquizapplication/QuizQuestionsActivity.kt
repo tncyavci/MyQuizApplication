@@ -16,6 +16,7 @@ class QuizQuestionsActivity : AppCompatActivity() {
     private lateinit var binding : ActivityQuizQuestionsBinding
 
     private var mCurrentPosition: Int = 1 // Default and the first question position
+    private var mUsername: String? = null
     private var mQuestionsList: ArrayList<Question>? = null
     // End
 
