@@ -17,17 +17,18 @@ class QuizQuestionsActivity : AppCompatActivity() {
 
     private var mCurrentPosition: Int = 1 // Default and the first question position
     private var mUsername: String? = null
+    private var mCorrectAnswers: Int = 0
     private var mQuestionsList: ArrayList<Question>? = null
-    // End
 
     private var mSelectedOptionPosition: Int = 1
-    //END
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQuizQuestionsBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        mUsername = intent.getStringExtra(Constants.USER_NAME)
 
         mQuestionsList = Constants.getQuestions()
         // END
@@ -47,7 +48,7 @@ class QuizQuestionsActivity : AppCompatActivity() {
             onClick(it)
         }
 
-        // TODO(STEP 1: Adding a click event for submit button.)
+        // Adding a click event for submit button.
         binding.btnSubmit.setOnClickListener {
             onClick(it)
         }
@@ -59,7 +60,7 @@ class QuizQuestionsActivity : AppCompatActivity() {
             mQuestionsList!![mCurrentPosition - 1] //Getting the question from the list with the help of current position
         defaultOptionsView()
 
-        // TODO (STEP 6: Check here if the position of question is last then change the text of the button.)
+        // Check here if the position of question is last then change the text of the button.
         // START
         if (mCurrentPosition == mQuestionsList!!.size) {
             binding.btnSubmit?.text = "FINISH"
@@ -82,11 +83,9 @@ class QuizQuestionsActivity : AppCompatActivity() {
     }
 
     private fun onClick(view: View) {
-        when(view?.id){
+        when(view.id){
             R.id.tv_option_one ->{
-                binding.tvOptionOne?.let {
-                    selectedOptionView(it,1)
-                }
+                selectedOptionView(binding.tvOptionOne,1)
             }
             R.id.tv_option_two -> {
                 binding.tvOptionTwo?.let {
@@ -109,7 +108,7 @@ class QuizQuestionsActivity : AppCompatActivity() {
 
             }
 
-            // TODO(STEP 2: Adding a click event for submit button. And change the questions and check the selected answers.)
+            // Adding a click event for submit button. And change the questions and check the selected answers.)
             // START
                 R.id.btn_submit->{
 
@@ -125,12 +124,10 @@ class QuizQuestionsActivity : AppCompatActivity() {
                             }
                             else -> {
 
-                                Toast.makeText(
-                                    this@QuizQuestionsActivity,
-                                    "You have successfully completed the quiz.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                val intent = Intent(this,MainActivity::class.java)
+                                val intent = Intent(this,ResultActivity::class.java)
+                                intent.putExtra(Constants.USER_NAME,mUsername)
+                                intent.putExtra(Constants.CORRECT_ANSWER.toString(),mCorrectAnswers)
+                                intent.putExtra(Constants.TOTAL_QUESTIONS.toString(),mQuestionsList?.size)
                                 startActivity(intent)
                                 finish()
                             }
@@ -141,6 +138,8 @@ class QuizQuestionsActivity : AppCompatActivity() {
                         // This is to check if the answer is wrong
                         if (question!!.correctAnswer != mSelectedOptionPosition) {
                             answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
+                        } else {
+                            mCorrectAnswers++
                         }
 
                         // This is for correct answer
@@ -159,7 +158,7 @@ class QuizQuestionsActivity : AppCompatActivity() {
         }
     }
 
-    // TODO (STEP 3: Create a function for answer view.)
+    //  Create a function for answer view.
     // START
     /**
      * A function for answer view which is used to highlight the answer is wrong or right.
