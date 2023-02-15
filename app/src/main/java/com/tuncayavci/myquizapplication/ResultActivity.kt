@@ -15,9 +15,9 @@ class ResultActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        binding.tvName.text = intent.getStringExtra(Constants.USER_NAME.toString())
-        val totalQuestions = intent.getIntExtra(Constants.TOTAL_QUESTIONS.toString(),0)
-        val correctAnswers = intent.getIntExtra(Constants.CORRECT_ANSWER.toString(),0)
+        binding.tvName.text = intent.getStringExtra(Constants.USER_NAME)
+        val totalQuestions = intent.getIntExtra(Constants.TOTAL_QUESTIONS,0)
+        val correctAnswers = intent.getIntExtra(Constants.CORRECT_ANSWER,0)
 
         binding.tvScore.text = "Your score is ${correctAnswers.toString()} out of ${totalQuestions.toString()}"
         binding.btnFinish.setOnClickListener {
